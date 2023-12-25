@@ -31,7 +31,8 @@ fn main() {
 fn body(opts &Opts, args []string) ! {
 	if args.len > 0 {
 		for arg in args {
-			println(arg)
+			mut dcu := Dcu{}
+			dcu.decompile(arg)!
 		}
 	}
 }
