@@ -34,7 +34,7 @@ mut:
 
 	version  u32
 	compiler Compiler
-	platform u8
+	platform Platform
 
 	size u32
 	date u32
@@ -50,8 +50,8 @@ pub fn (mut d Dcu) decompile(path string) ! {
 fn (mut d Dcu) decode() ! {
 	unsafe {
 		d.compiler = Compiler(d.data[3])
+		d.platform = Platform(d.data[1])
 	}
-	d.platform = d.data[1]
 	d.version = d.get[u32]()!
 	d.size = d.get[u32]()!
 	d.date = d.get[u32]()!
@@ -70,6 +70,19 @@ fn (d Dcu) get[T]() !T {
 	} else {
 		return error('End of file')
 	}
+}
+
+enum Platform as u8 {
+	win32_0      = 0x00
+	win32        = 0x03
+	win64        = 0x23
+	osx32        = 0x04
+	iossimulator = 0x14
+	android32_67 = 0x67
+	iosdevice32  = 0x76
+	android32    = 0x77
+	android64    = 0x87
+	iosdevice64  = 0x94
 }
 
 fn (d Dcu) write_file() ! {
@@ -95,9 +108,20 @@ fn (d Dcu) write_file() ! {
 		.delphi11:        'Embarcadero Delphi 11 Alexandria'
 		.delphi12:        'Embarcadero Delphi 12 Athens'
 	}
+	plateform_map := {
+		Platform.win32_0: 'Win32'
+		.win64:           'Win64'
+		.osx32:           'OSX32'
+		.iossimulator:    'iOSSimulator'
+		.android32_67:    'Android32'
+		.iosdevice32:     'iOSDevice32'
+		.android32:       'Android32'
+		.android64:       'Android64'
+		.iosdevice64:     'iOSDevice64'
+	}
 	mut buffer := '// version: ${d.version:08X}
 // compiler: ${version_map[d.compiler]}
-// platform: ${d.platform}
+// platform: ${plateform_map[d.platform]}
 // size: ${d.size}
 // compile date: ${d.date}
 // crc: ${d.crc}
