@@ -32,7 +32,9 @@ fn body(opts &Opts, args []string) ! {
 	if args.len > 0 {
 		for arg in args {
 			mut dcu := Dcu{}
+			println('Decompile ${arg}...')
 			dcu.decompile(arg)!
 		}
+		println('Done.')
 	}
 }
