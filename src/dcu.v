@@ -1,6 +1,7 @@
 module main
 
 import os
+import time
 
 enum Compiler as u8 {
 	delphi6    = 0x0E
@@ -119,11 +120,13 @@ fn (d Dcu) write_file() ! {
 		.android64:       'Android64'
 		.iosdevice64:     'iOSDevice64'
 	}
+
+	date := time.unix(d.date)
 	mut buffer := '// version: ${d.version:08X}
 // compiler: ${version_map[d.compiler]}
 // platform: ${plateform_map[d.platform]}
 // size: ${d.size}
-// compile date: ${d.date}
+// compile date: ${date}
 // crc: ${d.crc}
 '
 	os.write_file(d.path + '.pas', buffer)!
