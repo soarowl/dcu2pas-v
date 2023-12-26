@@ -27,9 +27,22 @@
 
 = Types
 
+== Id
+
+```tbl
+    R L L Lx
+    R L L Lx.
+_
+Offset|Name|Type|Notes
+_
+0 | len | u8 | Length.
+1 | name | utf8 chars | Name.
+_
+```
+
 == FileDate
   time: hour(5bits) minute(6bits) second(5bits >> 1)
-  
+
   date: year(7bits + 1980) month(4bits) day(5bits)
 
 == Packed Signed Int(PI)
@@ -63,7 +76,7 @@ _
 2 | ? | u8 | Always 0
 3 | compilerVersion | u8 | As following.
 4 | fileSize | u32 | File size, including this header.
-8 | compiledDate | TDateTime | Compiled date time.
+8 | compiledDate | FileDate | Compiled date time.
 c | crc32 | u32 | Or 0.
 _
 ```
@@ -117,7 +130,7 @@ On request, also the target platform, which is found in the second byte of the .
 
 = Tags
 
-== 00 completed flag
+== 00 Start flag
 
 == 02 Unit Compile Flags
 
@@ -127,11 +140,13 @@ On request, also the target platform, which is found in the second byte of the .
 _
 Offset|Name|Type|Notes
 _
-0 | len | u8 | Length.
-1 | name | utf8 chars | Name.
-\...
+0 | id | Id | Unit Name
+? | ? | PI |
+? | ? | PI |
 _
 ```
+
+== 61 End Flag
 
 == 64 Global Use Unit
 
@@ -141,11 +156,12 @@ _
 _
 Offset|Name|Type|Notes
 _
-0 | len | u8 | Length.
-1 | name | utf8 chars | Name.
-len + 1 | lastModified | TimeStamp | Last modified datetime.
+0 | id | Id | Unit name
+? | lastModified | TimeStamp | Last modified datetime.
 _
 ```
+
+An unit have many const, procedures and types.
 
 == 70 | 76 Source File Name
 
@@ -155,10 +171,23 @@ _
 _
 Offset|Name|Type|Notes
 _
-0 | len | u8 | Length.
-1 | name | utf8 chars | Name.
-len + 1 | lastModified | TimeStamp | Last modified datetime.
-len + 5 | order | PU | Include order, count down to 0
+0 | id | Id | Source file name.
+? | lastModified | TimeStamp | Last modified datetime.
+\+ 4 | order | PU | Included order, count down to 0
+_
+```
+
+== 96 Unit Flag
+
+```tbl
+    R L L Lx
+    R L L Lx.
+_
+Offset|Name|Type|Notes
+_
+0 | ? | PU |
+? | ? | PU |
+? | ? | PU |
 _
 ```
 
