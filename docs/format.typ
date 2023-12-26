@@ -114,7 +114,7 @@ On request, also the target platform, which is found in the second byte of the .
 
 == 00 completed flag
 
-== 02 Unit Compile Flags 
+== 02 Unit Compile Flags
 
 ```tbl
     R L L Lx
@@ -138,7 +138,7 @@ Offset|Name|Type|Notes
 _
 0 | len | u8 | Length.
 1 | name | utf8 chars | Name.
-len + 1 | lastModified | TDateTime | Last modified datetime.
+len + 1 | lastModified | TimeStamp | Last modified datetime.
 _
 ```
 
@@ -152,7 +152,7 @@ Offset|Name|Type|Notes
 _
 0 | len | u8 | Length.
 1 | name | utf8 chars | Name.
-len + 1 | lastModified | TDateTime | Last modified datetime.
+len + 1 | lastModified | TimeStamp | Last modified datetime.
 len + 5 | order | PU | Include order, count down to 0
 _
 ```
@@ -162,33 +162,33 @@ _
 == Delphi related
 
 + DCU32INT: http://hmelnov.icc.ru/DCU/index.eng.html
-  
+
   source: https://gitlab.com/dcu32int/DCU32INT
 
-  The utility DCU32INT parses \*.dcu file and converts it into a close to Pascal form. See DCU32INT.txt for more details. The unit versions supported are Delphi 2.0-8.0, 2005-2006/Turbo Delphi (.net and WIN32), 2007-2010 (WIN32), XE (WIN32), XE2-XE3 (WIN32,WIN64,OSX32), XE4 (WIN32,WIN64,OSX32,iOS simulator, iOS device (no code)), XE5-XE7/AppMethod (WIN32,WIN64,OSX32,iOS simulator, iOS device (no code), Android (no code)), XE8, 10 Seattle, 10.1 Berlin (WIN32,WIN64,OSX32,iOS simulator, iOS device 32/64 (no code),Android (no code)), 10.2 Tokyo (WIN32,WIN64,OSX32,iOS simulator, iOS device 32/64 (no code),Android (no code),Linux (no code)), 10.3 Rio (WIN32,WIN64,OSX32,iOS simulator, iOS device 32/64 (no code),Android (no code),Linux (may be - not checked,no code)), Kylix 1.0-3.0. 
+  The utility DCU32INT parses \*.dcu file and converts it into a close to Pascal form. See DCU32INT.txt for more details. The unit versions supported are Delphi 2.0-8.0, 2005-2006/Turbo Delphi (.net and WIN32), 2007-2010 (WIN32), XE (WIN32), XE2-XE3 (WIN32,WIN64,OSX32), XE4 (WIN32,WIN64,OSX32,iOS simulator, iOS device (no code)), XE5-XE7/AppMethod (WIN32,WIN64,OSX32,iOS simulator, iOS device (no code), Android (no code)), XE8, 10 Seattle, 10.1 Berlin (WIN32,WIN64,OSX32,iOS simulator, iOS device 32/64 (no code),Android (no code)), 10.2 Tokyo (WIN32,WIN64,OSX32,iOS simulator, iOS device 32/64 (no code),Android (no code),Linux (no code)), 10.3 Rio (WIN32,WIN64,OSX32,iOS simulator, iOS device 32/64 (no code),Android (no code),Linux (may be - not checked,no code)), Kylix 1.0-3.0.
 
 + Innova Solutions Object Database - Delphi DCUs: https://github.com/rogerinnova/ISObjectDbDCUs
-  
+
   Delphi DCUs for Adding an Innova Solutions Object Db into your Delphi Application.
 
   #info[I list here as my test suites, because it has full delphi version dcus.]
 
 + IDR (Interactive Delphi Reconstructor): https://github.com/crypto2011/IDR
 
-  A decompiler of executable files (EXE) and dynamic libraries (DLL), written in Delphi and executed in Windows32 environment. Final project goal is development of the program capable to restore the most part of initial Delphi source codes from the compiled file but IDR, as well as others Delphi decompilers, cannot do it yet. Nevertheless, IDR is in a status considerably to facilitate such process. In comparison with other well known Delphi decompilers the result of IDR analysis has the greatest completeness and reliability. 
+  A decompiler of executable files (EXE) and dynamic libraries (DLL), written in Delphi and executed in Windows32 environment. Final project goal is development of the program capable to restore the most part of initial Delphi source codes from the compiled file but IDR, as well as others Delphi decompilers, cannot do it yet. Nevertheless, IDR is in a status considerably to facilitate such process. In comparison with other well known Delphi decompilers the result of IDR analysis has the greatest completeness and reliability.
 
 + revendepro: http://www.ggoossen.net/revendepro/
 
-  Revendepro finds almost all structures (classes, types, procedures, etc) in the program, and generates the pascal representation, procedures will be written in assembler. Due to some limitation in assembler the generated output can not be recompiled. The source to this decompiler is freely available. Unfortunately this is the only one decompiler I was not able to use - it prompts with an exception when you try to decompile some Delphi executable file. 
+  Revendepro finds almost all structures (classes, types, procedures, etc) in the program, and generates the pascal representation, procedures will be written in assembler. Due to some limitation in assembler the generated output can not be recompiled. The source to this decompiler is freely available. Unfortunately this is the only one decompiler I was not able to use - it prompts with an exception when you try to decompile some Delphi executable file.
 
 + EMS Source Rescuer: https://ems-source-rescuer.apponic.com/
 
-  EMS Source Rescuer is an easy-to-use wizard application which can help you to restore your lost source code. If you lose your Delphi or C++Builder project sources, but have an executable file, then this tool can rescue part of lost sources. Rescuer produces all project forms and data modules with all assigned properties and events. Produced event procedures don't have a body (it is not a decompiler), but have an address of code in executable file. In most cases Rescuer saves 50-90% of your time to project restoration. 
+  EMS Source Rescuer is an easy-to-use wizard application which can help you to restore your lost source code. If you lose your Delphi or C++Builder project sources, but have an executable file, then this tool can rescue part of lost sources. Rescuer produces all project forms and data modules with all assigned properties and events. Produced event procedures don't have a body (it is not a decompiler), but have an address of code in executable file. In most cases Rescuer saves 50-90% of your time to project restoration.
 
 + Dede: http://www.softpedia.com/get/Programming/Debuggers-Decompilers-Dissasemblers/DeDe.shtml
-  
+
   source: https://github.com/Hanvdm/dedex
-   
+
   DeDe is a very fast program that can analyze executables compiled with Delphi. After decompilation DeDe gives you the following:
 
   -  All dfm files of the target. You will be able to open and edit them with Delphi.
@@ -203,7 +203,7 @@ _
 + Software optimization resources: https://www.agner.org/optimize/
 
 + Okteta: https://apps.kde.org/okteta/
-  
+
   Okteta is a simple editor for the raw data of files.
 
   Features:

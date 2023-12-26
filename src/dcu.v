@@ -1,7 +1,6 @@
 module main
 
 import os
-import time
 
 enum Compiler as u8 {
 	delphi6    = 0x0E
@@ -37,9 +36,9 @@ mut:
 	compiler Compiler
 	platform Platform
 
-	size u32
-	date u32
-	crc  u32
+	size          u32
+	compiled_time TimeStamp
+	crc           u32
 }
 
 pub fn (mut d Dcu) decompile(path string) ! {
@@ -55,7 +54,7 @@ fn (mut d Dcu) decode() ! {
 	}
 	d.version = d.get[u32]()!
 	d.size = d.get[u32]()!
-	d.date = d.get[u32]()!
+	d.compiled_time = d.get[TimeStamp]()!
 	d.crc = d.get[u32]()!
 
 	d.write_file()!
@@ -121,12 +120,12 @@ fn (d Dcu) write_file() ! {
 		.iosdevice64:     'iOSDevice64'
 	}
 
-	date := time.unix(d.date)
+	compiled_time := d.compiled_time.to_time()
 	mut buffer := '// version: ${d.version:08X}
 // compiler: ${version_map[d.compiler]}
 // platform: ${plateform_map[d.platform]}
 // size: ${d.size}
-// compile date: ${date}
+// compile time: ${compiled_time}
 // crc: ${d.crc}
 '
 	os.write_file(d.path + '.pas', buffer)!
