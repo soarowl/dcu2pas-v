@@ -27,6 +27,11 @@
 
 = Types
 
+== FileDate
+  time: hour(5bits) minute(6bits) second(5bits >> 1)
+  
+  date: year(7bits + 1980) month(4bits) day(5bits)
+
 == Packed Signed Int(PI)
 
 + LSB: 0: 7 bit signed int
