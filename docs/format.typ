@@ -146,7 +146,33 @@ _
 _
 ```
 
-== 61 End Flag
+== 0A | 10 Segment?
+
+== 14
+
+== 35 String Const Defination
+
+```tbl
+    R L L Lx
+    R L L Lx.
+_
+Offset|Name|Type|Notes
+_
+0 | id | Id | Unit name
+? | ? | PU |
+? | ? | PU |
+? | ? | PU |
+? | ? | PU |
+_
+```
+
+End with 63 tag.
+
+== 37
+
+== 61 All File End Flag
+
+== 63 End of Any
 
 == 64 Global Use Unit
 
@@ -157,11 +183,15 @@ _
 Offset|Name|Type|Notes
 _
 0 | id | Id | Unit name
-? | lastModified | TimeStamp | Last modified datetime.
+? | ? | PU |
+? | ? | PU |
+? | ? | PU |
 _
 ```
 
-An unit have many const, procedures and types.
+An unit have many const, procedures and types, end with 63 tag.
+
+== 67
 
 == 70 | 76 Source File Name
 

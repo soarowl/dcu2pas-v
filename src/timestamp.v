@@ -14,7 +14,14 @@ pub fn (t TimeStamp) to_time() time.Time {
 	hour := t.time >> 11
 	minute := t.time >> 5 & 63
 	second := t.time & 31 << 1
-	return time.Time{year, month, day, hour, minute, second, 0, 0, false, 0}
+	return time.Time{
+		year: year
+		month: month
+		day: day
+		hour: hour
+		minute: minute
+		second: second
+	}
 }
 
 pub fn from_time(t time.Time) TimeStamp {
