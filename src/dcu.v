@@ -76,18 +76,19 @@ fn (d Dcu) get[T]() !T {
 }
 
 fn (mut d Dcu) get_id() !string {
-	if d.pos < d.data.len {
-		d.pos++
+	errmsg := 'End of file'
+	if d.pos <= d.data.len {
 		len := d.data[d.pos]
-		if d.pos + len < d.data.len {
+		d.pos++
+		if d.pos + len <= d.data.len {
 			v := d.data[d.pos..d.pos + len]
 			d.pos += len
-			return v.str()
+			return v.bytestr()
 		} else {
-			return error('')
+			return error(errmsg)
 		}
 	}
-	return error('')
+	return error(errmsg)
 }
 
 enum Platform as u8 {
