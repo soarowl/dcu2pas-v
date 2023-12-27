@@ -1,6 +1,6 @@
 module main
-import os
 
+import os
 import prantlf.cli { Cli, run }
 
 const version = '0.0.1'
@@ -33,7 +33,7 @@ fn body(opts &Opts, args []string) ! {
 	if args.len > 0 {
 		for arg in args {
 			data := os.read_bytes(arg)!
-			mut dcu := Dcu{path: arg, data: data}
+			mut dcu := Dcu.new(arg, data)
 			println('Decompile ${arg}...')
 			dcu.decode()!
 		}

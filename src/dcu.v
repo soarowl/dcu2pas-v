@@ -39,6 +39,15 @@ mut:
 	size          u32
 	compiled_time TimeStamp
 	crc           u32
+
+	tag u8
+}
+
+fn Dcu.new(path string, data []u8) Dcu {
+	return Dcu{
+		path: path
+		data: data
+	}
 }
 
 fn (mut d Dcu) decode() ! {
@@ -64,6 +73,21 @@ fn (d Dcu) get[T]() !T {
 	} else {
 		return error('End of file')
 	}
+}
+
+fn (mut d Dcu) get_id() !string {
+	if d.pos < d.data.len {
+		d.pos++
+		len := d.data[d.pos]
+		if d.pos + len < d.data.len {
+			v := d.data[d.pos..d.pos + len]
+			d.pos += len
+			return v.str()
+		} else {
+			return error('')
+		}
+	}
+	return error('')
 }
 
 enum Platform as u8 {
