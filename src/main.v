@@ -1,4 +1,5 @@
 module main
+import os
 
 import prantlf.cli { Cli, run }
 
@@ -31,9 +32,10 @@ fn main() {
 fn body(opts &Opts, args []string) ! {
 	if args.len > 0 {
 		for arg in args {
-			mut dcu := Dcu{}
+			data := os.read_bytes(arg)!
+			mut dcu := Dcu{path: arg, data: data}
 			println('Decompile ${arg}...')
-			dcu.decompile(arg)!
+			dcu.decode()!
 		}
 		println('Done.')
 	}

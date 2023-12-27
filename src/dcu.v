@@ -26,11 +26,11 @@ enum Compiler as u8 {
 	delphi12   = 0x24
 }
 
-pub struct Dcu {
-mut:
+struct Dcu {
 	path string
 	data []u8
-	pos  usize
+mut:
+	pos usize
 
 	version  u32
 	compiler Compiler
@@ -39,12 +39,6 @@ mut:
 	size          u32
 	compiled_time TimeStamp
 	crc           u32
-}
-
-pub fn (mut d Dcu) decompile(path string) ! {
-	d.path = path
-	d.data = os.read_bytes(path)!
-	d.decode()!
 }
 
 fn (mut d Dcu) decode() ! {
