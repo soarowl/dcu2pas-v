@@ -30,7 +30,8 @@ struct Dcu {
 	path string
 	data []u8
 mut:
-	pos usize
+	name string
+	pos  usize
 
 	version  u32
 	compiler Compiler
@@ -91,20 +92,7 @@ fn (mut d Dcu) get_utf8str() !string {
 	return error(errmsg)
 }
 
-enum Platform as u8 {
-	win32_0      = 0x00
-	win32        = 0x03
-	win64        = 0x23
-	osx32        = 0x04
-	iossimulator = 0x14
-	android32_67 = 0x67
-	iosdevice32  = 0x76
-	android32    = 0x77
-	android64    = 0x87
-	iosdevice64  = 0x94
-}
-
-fn (d Dcu) write_file() ! {
+fn (d Dcu) int_str() string {
 	version_map := {
 		Compiler.delphi6: 'Borland Delphi 6'
 		.delphi7:         'Borland Delphi 7'
@@ -140,12 +128,49 @@ fn (d Dcu) write_file() ! {
 	}
 
 	compiled_time := d.compiled_time.to_time()
-	mut buffer := '// version: ${d.version:08X}
+	buffer := '// version: ${d.version:08X}
 // compiler: ${version_map[d.compiler]}
 // platform: ${plateform_map[d.platform]}
 // size: ${d.size}
 // compile time: ${compiled_time}
 // crc: ${d.crc}
+
+unit ${d.name};
+
+interface
+
 '
-	os.write_file(d.path + '.pas', buffer)!
+	return buffer
+}
+
+fn (d Dcu) imp_str() string {
+	return ''
+}
+
+fn (d Dcu) str() string {
+	return '${d.int_str()}
+
+implementation
+
+${d.imp_str()}
+
+end.
+'
+}
+
+enum Platform as u8 {
+	win32_0      = 0x00
+	win32        = 0x03
+	win64        = 0x23
+	osx32        = 0x04
+	iossimulator = 0x14
+	android32_67 = 0x67
+	iosdevice32  = 0x76
+	android32    = 0x77
+	android64    = 0x87
+	iosdevice64  = 0x94
+}
+
+fn (d Dcu) write_file() ! {
+	os.write_file(d.path + '.pas', d.str())!
 }
