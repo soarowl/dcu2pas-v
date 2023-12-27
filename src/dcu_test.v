@@ -1,8 +1,16 @@
 module main
 
-fn test_get_id() {
+fn test_get_utf8str() {
 	buffer := [u8(6), 0x55, 0x45, 0x6d, 0x70, 0x74, 0x79]
 	mut dcu := Dcu.new('test.dcu', buffer)
-	id := dcu.get_id()!
+	id := dcu.get_utf8str()!
 	assert id == 'UEmpty'
+}
+
+fn test_get_utf8str_chinese() {
+	buffer := [u8(15), 0xe4, 0xb8, 0xad, 0xe6, 0x96, 0x87, 0xe5, 0xad, 0x97, 0xe7, 0xac, 0xa6,
+		0xe4, 0xb8, 0xb2]
+	mut dcu := Dcu.new('test.dcu', buffer)
+	id := dcu.get_utf8str()!
+	assert id == '中文字符串'
 }

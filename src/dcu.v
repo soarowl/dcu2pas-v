@@ -75,7 +75,7 @@ fn (d Dcu) get[T]() !T {
 	}
 }
 
-fn (mut d Dcu) get_id() !string {
+fn (mut d Dcu) get_utf8str() !string {
 	errmsg := 'End of file'
 	if d.pos <= d.data.len {
 		len := d.data[d.pos]
