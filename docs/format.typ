@@ -225,6 +225,8 @@ _
 
 == Delphi related
 
++ Internal Data Formats (Delphi): https://docwiki.embarcadero.com/RADStudio/Sydney/en/Internal_Data_Formats_(Delphi)
+
 + DCU32INT: http://hmelnov.icc.ru/DCU/index.eng.html
 
   source: https://gitlab.com/dcu32int/DCU32INT
