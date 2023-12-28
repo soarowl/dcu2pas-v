@@ -2,7 +2,7 @@
 #import "@preview/tbl:0.0.4"
 
 #set heading(numbering: "1.1")
-#show: tbl.template.with(box: false, tab: "|")
+#show: tbl.template.with(box: false, breakable: true, tab: "|")
 
 #let title = [DCU(Delphi Compiled Unit) Format]
 
@@ -83,9 +83,11 @@ _
 
 == version
 
+CompilerVersion Constant: https://delphi.fandom.com/wiki/CompilerVersion_Constant
+
 ```tbl
-    LE LE LE
-    LE NE LE.
+    LX LX LX
+    LX NX LX.
 _
 Compiler | CompilerVersion | Defined Symbol
 _
@@ -121,7 +123,78 @@ Delphi 2 | 9(\*) | VER90
 Delphi 1 | 8(\*) | VER80
 _
 ```
-(\*) These versions did not have a CompilerVersion constant, it was introduced with Delphi 6. 
+(\*) These versions did not have a CompilerVersion constant, it was introduced with Delphi 6.
+
+More details: Borland Compiler Conditional Defines: https://delphi.fandom.com/wiki/Borland_Compiler_Conditional_Defines
+
+```tbl
+    LX L L L
+    LX N L N.
+_
+Product Name | Version | Conditional Define | CompilerVersion
+Embarcadero RAD Studio 12.0 Athens | 29.0 | VER360 | 36
+Embarcadero RAD Studio 11.0 Alexandria | 28.0 | VER350 | 35
+Embarcadero RAD Studio 10.4 Sydney | 27.0 |VER340 | 34
+Embarcadero RAD Studio 10.3 Rio | 26.0 | VER330 | 33
+Embarcadero RAD Studio 10.2 Tokyo | 25.0 | VER320 | 32
+Embarcadero RAD Studio 10.1 Berlin | 24.0 | VER310 | 31
+Embarcadero RAD Studio 10 Seattle | 23.0 | VER300 | 30
+Embarcadero RAD Studio XE8 | 22.0 | VER290 | 29
+Embarcadero RAD Studio XE7 | 21.0 | VER280 | 28
+Embarcadero RAD Studio XE6 | 20.0 | VER270 | 27
+Embarcadero RAD Studio XE5 | 19.0 | VER260 | 26
+Embarcadero RAD Studio XE4 | 18.0 | VER250 | 25
+Embarcadero RAD Studio XE3 | 17.0 | VER240 | 24
+Embarcadero RAD Studio XE2 | 16.0 | VER230 | 23
+Embarcadero RAD Studio XE | 15.0 | VER220 | 22
+Embarcadero RAD Studio 2010 | 14.0 | VER210 | 21
+CodeGear C++ Builder 2009 | 12.0 | VER200 | 20
+CodeGear Delphi 2007 for .NET | 11.0 | VER190 | 19
+CodeGear Delphi 2007 for Win32 | 11.0 | VER180 and VER185 | 18.5
+Borland Developer Studio 2006 | 10.0 | VER180 | 18
+Borland Delphi 2005 | 9.0 | VER170 | 17
+Borland Delphi 8 for .NET | 8.0 | VER160 \* | 16
+C++BuilderX | ? | ?
+Borland C\#Builder | 1.0 | VER160 \*
+Borland Delphi 7 | 7.0 | VER150 | 15
+Borland Kylix 3 | 3.0 | VER140 \*\*
+Borland C++Builder 6 | ? | VER140 \*\*(!!)
+Borland Kylix 2 | 2.0 | VER140 \*\*
+Borland Delphi 6 | 6.0 | VER140 \*\* | 14
+Borland Kylix | 1.0 | VER140 \*\*
+Borland C++Builder 5 | ? | VER130 \*\*\*
+Borland Delphi 5 | 5.0 | VER130 \*\*\*
+Borland C++Builder 4 | ? | VER125
+Borland Delphi 4 | 4.0 | VER120
+Borland C++Builder 3 | ? | VER110 \*\*\*\*
+Borland Delphi 3 | 3.0 | VER100
+Borland C++ 5 | ? | ?
+Borland C++Builder 1 | ? | VER93
+Borland Delphi 2 | 2.0 | VER90
+Borland C++ 4.5 | ? | ?
+Borland Delphi | 1.0 | VER80
+Borland C++ 4 | ? | ?
+Borland Pascal 7 | 7.0 | VER70
+Borland C++ 3.1 | ? | ?
+Turbo Pascal for Windows 1.5 | 1.5 | VER15
+Turbo C++ for DOS 3 | ? | ?
+Borland C++ 3 | ? | ?
+Turbo C++ for Windows 3 (Win16) | ? | ?
+Turbo Pascal for Windows 1.0 | 1.0 | VER10
+Borland C++ 2 | ? | ?
+Turbo Pascal 6 | 6.0 | VER60
+Turbo C++ for DOS | ? | ?
+Turbo C for DOS 2 | ? | ?
+Turbo Pascal 5.5 | 5.5 | VER55
+Turbo C for DOS 1.5 | ? | ?
+Turbo Pascal 5 | 5.0 | VER50
+Turbo Pascal 4 | 4.0 | VER40
+Turbo C for DOS | ? | ?
+Turbo Pascal 3 | 3.0 | N/A
+Turbo Pascal 2 | 2.0 | N/A
+Turbo Pascal 1 | 1.0 | N/A
+_
+```
 
 From unofficial sources, look at 4th byte of the .dcu
 
