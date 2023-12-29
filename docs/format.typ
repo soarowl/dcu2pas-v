@@ -132,6 +132,7 @@ More details: Borland Compiler Conditional Defines: https://delphi.fandom.com/wi
     LX N L N.
 _
 Product Name | Version | Conditional Define | CompilerVersion
+_
 Embarcadero RAD Studio 12.0 Athens | 29.0 | VER360 | 36
 Embarcadero RAD Studio 11.0 Alexandria | 28.0 | VER350 | 35
 Embarcadero RAD Studio 10.4 Sydney | 27.0 |VER340 | 34
@@ -195,6 +196,26 @@ Turbo Pascal 2 | 2.0 | N/A
 Turbo Pascal 1 | 1.0 | N/A
 _
 ```
+
+\* This conditional define is shared by the Delphi compilers used to build C\#Builder 1 and Delphi 8, which do not natively support Delphi for Win32. This define is used in the "IDE Integration Packs" that were released to Borland partners in order to allow IDE plugins to be compiled.
+
+\*\* This conditional define is shared between C++Builder 6, Delphi 6, Kylix 1, 2, and 3 (Checking for the conditional define "LINUX" helps to determine whether the compiler is Kylix or Delphi and "BCB" can be used to determine if C++Builder is being used).
+
+\*\*\* This conditional define is shared with C++Builder 5
+
+\*\*\*\* C++Builder 3.0 used VER110 (it had its own version of the Delphi compiler included).
+
+\*\*\*\* CompilerVersion (Delphi 6 or later) can be used with conditional directives like
+
+  ```pas
+  {$IF CompilerVersion >= 20}  {$DEFINE CanUnicode}  {$IFEND}
+  ```
+
+or using code:
+
+  ```pas
+  if System.CompilerVersion >= 22 then  <do something>;
+  ```
 
 From unofficial sources, look at 4th byte of the .dcu
 
