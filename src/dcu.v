@@ -119,6 +119,7 @@ fn (d Dcu) int_str() string {
 	}
 	plateform_map := {
 		Platform.win32_0: 'Win32'
+		.win32:           'Win32'
 		.win64:           'Win64'
 		.osx32:           'OSX32'
 		.iossimulator:    'iOSSimulator'
