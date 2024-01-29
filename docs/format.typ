@@ -1,4 +1,4 @@
-#import "@preview/gentle-clues:0.4.0": *
+#import "@preview/gentle-clues:0.6.0": *
 #import "@preview/tbl:0.0.4"
 
 #set heading(numbering: "1.1")
