@@ -31,7 +31,7 @@ struct Dcu {
 	data []u8
 mut:
 	name string
-	pos  usize
+	pos  usize // Current position in data when decode processing
 
 	magic    u32
 	compiler Compiler
@@ -43,6 +43,8 @@ mut:
 
 	tag u8
 }
+
+const err_msg_end_of_file = 'Unexpected end of file'
 
 fn Dcu.new(path string, data []u8) Dcu {
 	return Dcu{
@@ -72,12 +74,11 @@ fn (d Dcu) get[T]() !T {
 			return v
 		}
 	} else {
-		return error('End of file')
+		return error(err_msg_end_of_file)
 	}
 }
 
 fn (mut d Dcu) get_utf8str() !string {
-	errmsg := 'End of file'
 	if d.pos <= d.data.len {
 		len := d.data[d.pos]
 		d.pos++
@@ -86,10 +87,10 @@ fn (mut d Dcu) get_utf8str() !string {
 			d.pos += len
 			return v.bytestr()
 		} else {
-			return error(errmsg)
+			return error(err_msg_end_of_file)
 		}
 	}
-	return error(errmsg)
+	return error(err_msg_end_of_file)
 }
 
 fn (d Dcu) int_str() string {
