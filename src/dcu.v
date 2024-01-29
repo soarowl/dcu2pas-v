@@ -45,6 +45,7 @@ mut:
 }
 
 const err_msg_end_of_file = 'Unexpected end of file'
+const err_msg_invlid_format = 'Invalid format'
 
 fn Dcu.new(path string, data []u8) Dcu {
 	return Dcu{
@@ -67,7 +68,7 @@ fn (mut d Dcu) decode() ! {
 }
 
 fn (d Dcu) get[T]() !T {
-	if d.pos + sizeof(T) < d.data.len {
+	if d.pos + sizeof(T) <= d.data.len {
 		unsafe {
 			v := *(&T(&d.data[d.pos]))
 			d.pos += sizeof(T)
@@ -78,8 +79,91 @@ fn (d Dcu) get[T]() !T {
 	}
 }
 
+fn (mut d Dcu) get_packed_int() !i64 {
+	val8 := d.get[i8]()!
+	if val8 & 0b1 == 0 {
+		return val8 >> 1
+	}
+
+	if val8 & 0b11 == 0b01 {
+		d.pos--
+		val16 := d.get[i16]()!
+		return val16 >> 2
+	}
+
+	// Usually it will not out of boundary!!!
+	if val8 & 0b111 == 0b011 {
+		d.pos--
+		mut val32 := d.get[i32]()!
+		d.pos--
+		val32 &= 0x00FFFFFF
+		// check sign and set sign
+		if val32 & 0x800000 != 0 {
+			val32 |= 0xFF_000000
+		}
+		return val32 >> 3
+	}
+
+	if val8 & 0b1111 == 0b0111 {
+		d.pos--
+		val32 := d.get[i32]()!
+		return val32 >> 4
+	}
+
+	if val8 == 0b1111 {
+		val32 := d.get[i32]()!
+		return val32
+	}
+
+	if val8 == -1 {
+		val64 := d.get[i64]()!
+		return val64
+	}
+
+	return error(err_msg_invlid_format)
+}
+
+fn (mut d Dcu) get_packed_uint() !u64 {
+	val8 := d.get[u8]()!
+	if val8 & 0b1 == 0 {
+		return val8 >>> 1
+	}
+
+	if val8 & 0b11 == 0b01 {
+		d.pos--
+		val16 := d.get[u16]()!
+		return val16 >>> 2
+	}
+
+	// Usually it will not out of boundary!!!
+	if val8 & 0b111 == 0b011 {
+		d.pos--
+		val32 := d.get[u32]()!
+		d.pos--
+		return val32 & 0x00FFFFFF >>> 3
+	}
+
+	if val8 & 0b1111 == 0b0111 {
+		d.pos--
+		val32 := d.get[u32]()!
+		return val32 >>> 4
+	}
+
+	if val8 == 0b1111 {
+		val32 := d.get[u32]()!
+		return val32
+	}
+
+	if val8 == 0xFF {
+		val64 := d.get[u64]()!
+		return val64
+	}
+
+	return error(err_msg_invlid_format)
+}
+
 fn (mut d Dcu) get_utf8str() !string {
-	if d.pos <= d.data.len {
+	if d.pos < d.data.len {
 		len := d.data[d.pos]
 		d.pos++
 		if d.pos + len <= d.data.len {
