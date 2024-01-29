@@ -112,6 +112,7 @@ fn (d Dcu) int_str() string {
 		.delphi10_1:      'Embarcadero Delphi 10.1 Berlin'
 		.delphi10_2:      'Embarcadero Delphi 10.2 Tokyo'
 		.delphi10_3:      'Embarcadero Delphi 10.3 Rio'
+		.delphi10_4:      'Embarcadero Delphi 10.4 Sydney'
 		.delphi11:        'Embarcadero Delphi 11 Alexandria'
 		.delphi12:        'Embarcadero Delphi 12 Athens'
 	}
