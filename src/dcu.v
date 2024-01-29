@@ -33,7 +33,7 @@ mut:
 	name string
 	pos  usize
 
-	version  u32
+	magic    u32
 	compiler Compiler
 	platform Platform
 
@@ -56,7 +56,7 @@ fn (mut d Dcu) decode() ! {
 		d.compiler = Compiler(d.data[3])
 		d.platform = Platform(d.data[1])
 	}
-	d.version = d.get[u32]()!
+	d.magic = d.get[u32]()!
 	d.size = d.get[u32]()!
 	d.compiled_time = d.get[TimeStamp]()!
 	d.crc = d.get[u32]()!
@@ -128,7 +128,7 @@ fn (d Dcu) int_str() string {
 	}
 
 	compiled_time := d.compiled_time.to_time()
-	buffer := '// version: ${d.version:08X}
+	buffer := '// magic: ${d.magic:08X}
 // compiler: ${version_map[d.compiler]}
 // platform: ${plateform_map[d.platform]}
 // size: ${d.size}
