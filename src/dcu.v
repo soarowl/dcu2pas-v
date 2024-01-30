@@ -46,6 +46,7 @@ mut:
 	unit_flags  UnitFlags
 	sourcefiles []SourceFile
 	uses        []Use
+	declares    []Declare
 }
 
 const err_msg_end_of_file = 'Unexpected end of file'
@@ -82,6 +83,10 @@ fn (mut d Dcu) decode() ! {
 			}
 			u8(Tag.use_int) {
 				d.uses = d.decode_uses()!
+			}
+			u8(Tag.var_info) {
+				v := d.decode_var_info()!
+				d.declares << v
 			}
 			else {
 				println('Unknown tag: ${d.tag:02X} at ${(d.pos - 1):X}!!!')
@@ -292,6 +297,7 @@ fn (d Dcu) write_file() ! {
 
 enum Tag as u8 {
 	start       = 0
+	var_info    = 0x20
 	stop        = 0x63
 	use_int     = 0x64 // interface
 	use_imp     = 0x65 // implementation
@@ -300,3 +306,5 @@ enum Tag as u8 {
 	source_file = 0x70
 	unit_flags  = 0x96
 }
+
+type Declare = VarInfo
