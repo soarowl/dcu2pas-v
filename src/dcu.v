@@ -45,6 +45,7 @@ mut:
 
 	unit_flags  UnitFlags
 	sourcefiles []SourceFile
+	uses        []Use
 }
 
 const err_msg_end_of_file = 'Unexpected end of file'
@@ -78,6 +79,9 @@ fn (mut d Dcu) decode() ! {
 			}
 			u8(Tag.unit_flags) {
 				d.unit_flags = d.decode_unit_flags()!
+			}
+			u8(Tag.use_int) {
+				d.uses = d.decode_uses()!
 			}
 			else {
 				println('Unknown tag: ${d.tag:02X} at ${(d.pos - 1):X}!!!')
@@ -249,12 +253,13 @@ unit ${d.name};
 
 interface
 
+${d.uses.int_str()}
 '
 	return buffer
 }
 
 fn (d Dcu) imp_str() string {
-	return ''
+	return '${d.uses.imp_str()}'
 }
 
 fn (d Dcu) str() string {
@@ -287,6 +292,11 @@ fn (d Dcu) write_file() ! {
 
 enum Tag as u8 {
 	start       = 0
+	stop        = 0x63
+	use_int     = 0x64 // interface
+	use_imp     = 0x65 // implementation
+	use_type    = 0x66
+	use_func    = 0x67
 	source_file = 0x70
 	unit_flags  = 0x96
 }
