@@ -43,7 +43,8 @@ mut:
 
 	tag u8
 
-	unit_flags UnitFlags
+	unit_flags  UnitFlags
+	sourcefiles []SourceFile
 }
 
 const err_msg_end_of_file = 'Unexpected end of file'
@@ -69,6 +70,9 @@ fn (mut d Dcu) decode() ! {
 	for {
 		d.tag = d.get[u8]()!
 		match d.tag {
+			u8(Tag.source_file) {
+				d.sourcefiles = d.decode_sourcefiles()!
+			}
 			u8(Tag.start) {
 				continue
 			}
@@ -232,13 +236,14 @@ fn (d Dcu) int_str() string {
 		.iosdevice64:     'iOSDevice64'
 	}
 
-	compiled_time := d.compiled_time.to_time()
 	buffer := '// magic: ${d.magic:08X}
 // compiler: ${version_map[d.compiler]}
 // platform: ${plateform_map[d.platform]}
 // size: ${d.size}
-// compile time: ${compiled_time}
+// compile time: ${d.compiled_time}
 // crc: ${d.crc}
+// ${d.unit_flags}
+${d.sourcefiles}
 
 unit ${d.name};
 
@@ -281,6 +286,7 @@ fn (d Dcu) write_file() ! {
 }
 
 enum Tag as u8 {
-	start      = 0
-	unit_flags = 0x96
+	start       = 0
+	source_file = 0x70
+	unit_flags  = 0x96
 }

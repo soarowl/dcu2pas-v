@@ -10,3 +10,7 @@ fn (mut d Dcu) decode_unit_flags() !UnitFlags {
 	flags1 := d.get_packed_uint()!
 	return UnitFlags{flags, flags1}
 }
+
+fn (u UnitFlags) str() string {
+	return 'flags: ${u.flags:X}, flags1: ${u.flags1:X}'
+}
