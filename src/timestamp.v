@@ -30,3 +30,13 @@ pub fn from_time(t time.Time) TimeStamp {
 		date: u16(u16((t.year - 1980)) << 9 | u16(t.month) << 5 | t.day)
 	}
 }
+
+fn test_time_stamp() {
+	ts1 := TimeStamp{
+		time: 32570
+		date: 22417
+	}
+	t := ts1.to_time()
+	ts2 := from_time(t)
+	assert ts1 == ts2
+}
