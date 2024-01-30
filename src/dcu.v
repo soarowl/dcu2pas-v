@@ -42,6 +42,8 @@ mut:
 	crc           u32
 
 	tag u8
+
+	unit_flags UnitFlags
 }
 
 const err_msg_end_of_file = 'Unexpected end of file'
@@ -63,6 +65,22 @@ fn (mut d Dcu) decode() ! {
 	d.size = d.get[u32]()!
 	d.compiled_time = d.get[TimeStamp]()!
 	d.crc = d.get[u32]()!
+
+	for {
+		d.tag = d.get[u8]()!
+		match d.tag {
+			u8(Tag.start) {
+				continue
+			}
+			u8(Tag.unit_flags) {
+				d.unit_flags = d.decode_unit_flags()!
+			}
+			else {
+				println('Unknown tag: ${d.tag:02X} at ${(d.pos - 1):X}!!!')
+				break
+			}
+		}
+	}
 
 	d.write_file()!
 }
@@ -260,4 +278,9 @@ enum Platform as u8 {
 
 fn (d Dcu) write_file() ! {
 	os.write_file(d.path + '.pas', d.str())!
+}
+
+enum Tag as u8 {
+	start      = 0
+	unit_flags = 0x96
 }
