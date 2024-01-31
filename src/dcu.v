@@ -255,6 +255,7 @@ fn (d Dcu) int_str() string {
 // size: ${d.size}
 // compile time: ${d.compiled_time}
 // crc: ${d.crc}
+// ${d.unit_addtional_info}
 // ${d.unit_flags}
 ${d.sourcefiles}
 
