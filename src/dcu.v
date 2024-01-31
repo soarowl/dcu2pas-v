@@ -92,7 +92,7 @@ fn (mut d Dcu) decode() ! {
 			u8(Tag.use_int) {
 				d.uses = d.decode_uses()!
 			}
-			u8(Tag.var_info) {
+			u8(Tag.var_info1), u8(Tag.var_info2) {
 				v := d.decode_var_info()!
 				d.declares << v
 			}
@@ -318,8 +318,9 @@ fn (d Dcu) write_file() ! {
 enum Tag as u8 {
 	start               = 0
 	unit_addtional_info = 0x02 // ? Delphi12
-	var_info            = 0x20
+	var_info1           = 0x20
 	const_info          = 0x35
+	var_info2           = 0x37
 	stop                = 0x63
 	use_int             = 0x64 // interface
 	use_imp             = 0x65 // implementation
