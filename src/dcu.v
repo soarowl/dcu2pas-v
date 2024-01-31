@@ -1,6 +1,7 @@
 module main
 
 import os
+import strings
 
 enum Compiler as u8 {
 	delphi6    = 0x0E
@@ -249,14 +250,24 @@ fn (d Dcu) int_str() string {
 		.iosdevice64:     'iOSDevice64'
 	}
 
-	buffer := '// magic: ${d.magic:08X}
+	mut builder := strings.new_builder(d.size * 10)
+	defer {
+		unsafe { builder.free() }
+	}
+
+	builder.write_string('// magic: ${d.magic:08X}
 // compiler: ${version_map[d.compiler]}
 // platform: ${plateform_map[d.platform]}
 // size: ${d.size}
 // compile time: ${d.compiled_time}
 // crc: ${d.crc}
-// ${d.unit_addtional_info}
-// ${d.unit_flags}
+')
+
+	if u8(d.compiler) >= u8(Compiler.delphi12) {
+		builder.writeln('// ${d.unit_addtional_info}')
+	}
+
+	builder.write_string('// ${d.unit_flags}
 ${d.sourcefiles}
 
 unit ${d.name};
@@ -264,8 +275,9 @@ unit ${d.name};
 interface
 
 ${d.uses.int_str()}
-'
-	return buffer
+')
+
+	return builder.str()
 }
 
 fn (d Dcu) imp_str() string {
