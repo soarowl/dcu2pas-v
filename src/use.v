@@ -2,10 +2,12 @@ module main
 
 struct Use {
 mut:
-	tag       u8 // 0x64 | 0x65
-	name      string
-	timestamp TimeStamp
-	imports   []UseTypeOrFunc
+	tag     u8 // 0x64 | 0x65
+	name    string
+	u1      u64
+	u2      u64
+	u3      u64
+	imports []UseTypeOrFunc
 }
 
 struct UseTypeOrFunc {
@@ -20,11 +22,18 @@ fn (mut d Dcu) decode_uses() ![]Use {
 	for {
 		tag := d.tag
 		name := d.get_utf8str()!
-		timestamp := d.get[TimeStamp]()!
+		u1 := d.get_packed_uint()!
+		u2 := d.get_packed_uint()!
+		mut u3 := u64(0)
+		if u8(d.compiler) >= u8(Compiler.delphi12) {
+			u3 = d.get_packed_uint()!
+		}
 		mut use := Use{}
 		use.tag = tag
 		use.name = name
-		use.timestamp = timestamp
+		use.u1 = u1
+		use.u2 = u2
+		use.u3 = u3
 
 		d.tag = d.get[u8]()!
 		match d.tag {
