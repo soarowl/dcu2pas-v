@@ -74,6 +74,9 @@ fn (mut d Dcu) decode() ! {
 	for {
 		d.tag = d.get[u8]()!
 		match d.tag {
+			u8(Tag.const_info) {
+				d.declares << d.decode_const_info()!
+			}
 			u8(Tag.source_file) {
 				d.sourcefiles = d.decode_sourcefiles()!
 			}
@@ -146,7 +149,7 @@ fn (mut d Dcu) get_packed_int() !i64 {
 		return val32 >> 4
 	}
 
-	if val8 == 0b1111 {
+	if val8 == 0x5F {
 		val32 := d.get[i32]()!
 		return val32
 	}
@@ -185,7 +188,7 @@ fn (mut d Dcu) get_packed_uint() !u64 {
 		return val32 >>> 4
 	}
 
-	if val8 == 0b1111 {
+	if val8 == 0x5F {
 		val32 := d.get[u32]()!
 		return val32
 	}
@@ -316,6 +319,7 @@ enum Tag as u8 {
 	start               = 0
 	unit_addtional_info = 0x02 // ? Delphi12
 	var_info            = 0x20
+	const_info          = 0x35
 	stop                = 0x63
 	use_int             = 0x64 // interface
 	use_imp             = 0x65 // implementation
@@ -325,4 +329,4 @@ enum Tag as u8 {
 	unit_flags          = 0x96
 }
 
-type Declare = VarInfo
+type Declare = ConstInfo | VarInfo
