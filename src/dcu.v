@@ -43,10 +43,11 @@ mut:
 
 	tag u8
 
-	unit_flags  UnitFlags
-	sourcefiles []SourceFile
-	uses        []Use
-	declares    []Declare
+	unit_addtional_info UnitAddtionalInfo
+	unit_flags          UnitFlags
+	sourcefiles         []SourceFile
+	uses                []Use
+	declares            []Declare
 }
 
 const err_msg_end_of_file = 'Unexpected end of file'
@@ -77,6 +78,9 @@ fn (mut d Dcu) decode() ! {
 			}
 			u8(Tag.start) {
 				continue
+			}
+			u8(Tag.unit_addtional_info) {
+				d.unit_addtional_info = d.decode_unit_addtional_info()!
 			}
 			u8(Tag.unit_flags) {
 				d.unit_flags = d.decode_unit_flags()!
@@ -296,15 +300,16 @@ fn (d Dcu) write_file() ! {
 }
 
 enum Tag as u8 {
-	start       = 0
-	var_info    = 0x20
-	stop        = 0x63
-	use_int     = 0x64 // interface
-	use_imp     = 0x65 // implementation
-	use_type    = 0x66
-	use_func    = 0x67
-	source_file = 0x70
-	unit_flags  = 0x96
+	start               = 0
+	unit_addtional_info = 0x02 // ? Delphi12
+	var_info            = 0x20
+	stop                = 0x63
+	use_int             = 0x64 // interface
+	use_imp             = 0x65 // implementation
+	use_type            = 0x66
+	use_func            = 0x67
+	source_file         = 0x70
+	unit_flags          = 0x96
 }
 
 type Declare = VarInfo
