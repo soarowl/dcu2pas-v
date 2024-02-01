@@ -340,7 +340,19 @@ End with 63 tag.
 
 == 63 End of Any
 
-== 64 Global Use Unit
+== 64 Interface Use Unit | 65 Implementation Use Unit
+
+- Delphi6
+
+```
+64 07 53 79 73 49 6E 69 74 | C8 | 43 D2 EF | 63
+```
+
+- Delphi12
+
+```
+64 07 53 79 73 49 6E 69 74 | 00 00 00 | 63
+```
 
 ```tbl
     R L L Lx
@@ -357,9 +369,35 @@ _
 
 An unit have many const, procedures and types, end with 63 tag.
 
-== 67
+=== 66 (Import Type)
+
+- Delph6
+
+```
+66 04 42 79 74 65 | DD DE 52 6C
+```
+
+=== 67 (Import Function)
+
+- Delphi6
+
+```
+67 0E 40 48 61 6E 64 6C 65 46 69 6E 61 6C 6C 79 | 58 2C 54 64
+```
+
+- Delphi12
+
+```
+67 17 40 44 65 6C 70 68 69 45 78 63 65 70 74 69 6F 6E 48 61 6E 64 6C 65 72 | C8 7E 90 F4
+```
 
 == 70 | 76 Source File Name
+
+```
+70 0A 55 45 6D 70 74 79 2E 70 61 73 | 35 7F 91 57 | 00
+
+70 3D 2E 2E 5C 2E 2E 5C 44 65 6C 70 68 69 20 33 5F 35 20 53 6F 75 72 63 65 20 43 6F 64 65 5C 4C 69 62 72 61 72 79 56 33 5C 49 53 44 65 6C 70 68 69 32 30 30 39 41 64 6A 75 73 74 2E 70 61 73 | 0C 75 77 3D | 00
+```
 
 ```tbl
     R L L Lx
