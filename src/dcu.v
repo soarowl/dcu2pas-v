@@ -39,7 +39,7 @@ mut:
 	platform Platform
 
 	size          u32
-	compiled_time TimeStamp
+	compiled_time FileDate
 	crc           u32
 
 	tag u8
@@ -68,7 +68,7 @@ fn (mut d Dcu) decode() ! {
 	}
 	d.magic = d.get[u32]()!
 	d.size = d.get[u32]()!
-	d.compiled_time = d.get[TimeStamp]()!
+	d.compiled_time = d.get[FileDate]()!
 	d.crc = d.get[u32]()!
 
 	for {

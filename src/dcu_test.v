@@ -55,7 +55,7 @@ fn test_get_packed_int_minus_i28() ! {
 }
 
 fn test_get_packed_int_minus_i32() ! {
-	data := [u8(0b1111), 2, 3, 4, 0b1000_0000]
+	data := [u8(0b101_1111), 2, 3, 4, 0b1000_0000]
 	mut dcu := Dcu.new('test.dcu', data)
 	i_5 := dcu.get_packed_int()!
 	assert 0b1111111111110111111110011111110 == -i_5
@@ -69,8 +69,8 @@ fn test_get_packed_int_minus_i64() ! {
 }
 
 fn test_get_packed_int_plus() ! {
-	data := [u8(8), 0b101, 3, 0b1011, 5, 6, 0b10111, 8, 9, 0, 0b1111, 2, 3, 4, 8, 0xff, 1, 2, 3,
-		4, 5, 6, 7, 8, 0b1111_1111, 1, 2, 3, 4, 5, 6, 7, 8]
+	data := [u8(8), 0b101, 3, 0b1011, 5, 6, 0b10111, 8, 9, 0, 0b101_1111, 2, 3, 4, 8, 0xff, 1,
+		2, 3, 4, 5, 6, 7, 8, 0b1111_1111, 1, 2, 3, 4, 5, 6, 7, 8]
 	mut dcu := Dcu.new('test.dcu', data)
 	i_1 := dcu.get_packed_int()!
 	assert 0b100 == i_1
@@ -87,8 +87,8 @@ fn test_get_packed_int_plus() ! {
 }
 
 fn test_get_packed_uint() ! {
-	data := [u8(8), 0b101, 3, 0b1011, 5, 6, 0b10111, 8, 9, 0, 0b1111, 2, 3, 4, 8, 0xff, 1, 2, 3,
-		4, 5, 6, 7, 8]
+	data := [u8(8), 0b101, 3, 0b1011, 5, 6, 0b10111, 8, 9, 0, 0b101_1111, 2, 3, 4, 8, 0xff, 1,
+		2, 3, 4, 5, 6, 7, 8]
 	mut dcu := Dcu.new('test.dcu', data)
 	i_1 := dcu.get_packed_uint()!
 	assert 0b100 == i_1

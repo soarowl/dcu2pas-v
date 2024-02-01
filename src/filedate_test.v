@@ -1,7 +1,7 @@
 module main
 
 fn test_time_stamp() {
-	ts1 := TimeStamp{
+	ts1 := FileDate{
 		time: 32570
 		date: 22417
 	}

@@ -2,7 +2,7 @@ module main
 
 struct SourceFile {
 	name          string
-	last_modified TimeStamp
+	last_modified FileDate
 	index         u64
 }
 
@@ -10,7 +10,7 @@ fn (mut d Dcu) decode_sourcefiles() ![]SourceFile {
 	mut sources := []SourceFile{}
 	for {
 		name := d.get_utf8str()!
-		last_modified := d.get[TimeStamp]()!
+		last_modified := d.get[FileDate]()!
 		index := d.get_packed_uint()!
 		sources << SourceFile{name, last_modified, index}
 		if index == 0 {
