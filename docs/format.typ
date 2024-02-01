@@ -51,7 +51,7 @@ _
 + LSB: 01: 14 bit signed int
 + LSB: 011: 21 bit signed int
 + LSB: 0111: 28 bit signed int
-+ LSB: 1111: 32 bit signed int
++ LSB: 101_1111: 32 bit signed int
 + LSB: 1111_1111: 64 bit signed int
 
 == Packed Unsigned Int(PU)
@@ -60,7 +60,7 @@ _
 + LSB: 01: 14 bit unsigned int
 + LSB: 011: 21 bit unsigned int
 + LSB: 0111: 28 bit unsigned int
-+ LSB: 1111: 32 bit unsigned int
++ LSB: 101_1111: 32 bit unsigned int
 + LSB: 1111_1111: 64 bit unsigned int
 
 = Header
@@ -266,7 +266,12 @@ On request, also the target platform, which is found in the second byte of the .
 
 == 00 Start flag
 
-== 02 Unit Compile Flags
+== 02 Unit Compile Flags(Delphi12)
+
+```
+02 06 55 45 6D 70 74 79 | FE | 27 FE EF 03
+      UEmpty
+```
 
 ```tbl
     R L L Lx
@@ -275,8 +280,8 @@ _
 Offset|Name|Type|Notes
 _
 0 | id | Id | Unit Name
-? | ? | PI |
-? | ? | PI |
+? | ? | PU |
+? | ? | PU |
 _
 ```
 
@@ -284,7 +289,29 @@ _
 
 == 14
 
+== 20 Variable Information
+
+- Delph6
+
+```
+20 02 2E 31 | 66 0E 00
+      .1
+```
+
 == 35 String Const Defination
+
+- Delphi12
+
+```
+35 06 55 45 6D 70 74 79 | 84 00 00 5F B8 8E CF 02 | 63
+      UEmpty
+
+35 06 53 79 73 74 65 6D | 00 00 00 04 | 63
+      System
+
+35 07 53 79 73 49 6E 69 74 | 00 00 00 08 | 63
+      SysInit
+```
 
 ```tbl
     R L L Lx
@@ -302,7 +329,14 @@ _
 
 End with 63 tag.
 
-== 37
+== 37 Variable Information(Same as 20)
+
+- Delphi12
+
+```
+37 02 2E 31 | 66 00 00 02 00
+      .1
+```
 
 == 61 All File End Flag
 
@@ -342,6 +376,17 @@ _
 ```
 
 == 96 Unit Flag
+- Delphi6
+
+```
+96 00 3C
+```
+
+- Delphi12
+
+```
+96 00 00 3C
+```
 
 ```tbl
     R L L Lx
