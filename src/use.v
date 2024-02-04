@@ -11,9 +11,10 @@ mut:
 }
 
 struct UseTypeOrFunc {
-	tag      u8 // ox66 | 0x67
-	name     string
-	filedate FileDate
+	tag  u8 // ox66 | 0x67
+	name string
+	u1   u32
+	u2   u32
 }
 
 fn (mut d Dcu) decode_uses() ![]Use {
@@ -60,11 +61,18 @@ fn (mut d Dcu) decode_uses() ![]Use {
 				for {
 					t := d.tag
 					n := d.get_utf8str()!
-					ts := d.get[FileDate]()!
-					u := UseTypeOrFunc{t, n, ts}
-					use.imports << u
+					uu1 := d.get[u32]()!
+					mut uu2 := u32(0)
 
 					d.tag = d.get[u8]()!
+					if d.tag == u8(0x9F) {
+						uu2 = d.get[u32]()!
+						d.tag = d.get[u8]()!
+					}
+
+					u := UseTypeOrFunc{t, n, uu1, uu2}
+					use.imports << u
+
 					if d.tag == u8(Tag.stop) {
 						break
 					}

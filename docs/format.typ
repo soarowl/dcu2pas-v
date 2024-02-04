@@ -298,6 +298,49 @@ _
       .1
 ```
 
+== 28 Function
+
+- Delph6
+
+```
+28 07 41 6E 73 69 43 68 72 | 80 D6 81 0A C4 00 02 04 04 | 21 03 56 61 6C | 16 02 00 | 20 06 52 65 73 75 6C 74 | 16 04 00 | 63
+
+28 17 47 65 74 45 6E 76 69 72 6F 6E 6D 65 6E 74 56 61 72 69 61 62 6C 65 41 | 80 0C 8D FD 18 00 24 09 40 0A | 21 04 4E 61 6D 65 12 0A 06 | 23 06 52 65 73 75 6C 74 16 0A 08 | 63
+```
+
+- Delphi12
+
+```
+28 0C 46 69 6E 61 6C 69 7A 61 74 69 6F 6E | 80 00 00 E9 60 70 C5 00 1E 04 21 90 04 00 | 63
+```
+
+End with 63
+
+=== 20 Result
+
+- Delphi6
+
+```
+20 06 52 65 73 75 6C 74 | 16 04 00
+```
+
+=== 21 Parameter
+
+- Delph6
+
+```
+21 03 56 61 6C | 16 02 00
+21 04 4E 61 6D 65 | 12 0A 06
+```
+
+=== 23 Result
+
+- Delph6
+
+```
+23 06 52 65 73 75 6C 74 | 16 0A 08
+```
+
 == 35 String Const Defination
 
 - Delphi12
@@ -307,8 +350,10 @@ _
       UEmpty
 35 06 53 79 73 74 65 6D | 00 00 00 04 | 63
       System
-35 07 53 79 73 49 6E 69 74 | 00 00 00 08 | 63
-      SysInit
+35 08 53 79 73 55 74 69 6C 73 | 80 00 00 00 00 00 00 56 | 63
+      SysUtils
+35 07 43 6C 61 73 73 65 73 | 80 00 00 00 00 00 00 4C | 63 | 63
+      Classes
 ```
 
 ```tbl
@@ -318,14 +363,11 @@ _
 Offset|Name|Type|Notes
 _
 0 | id | Id | Unit name
-? | ? | PU |
-? | ? | PU |
-? | ? | PU |
-? | ? | PU |
+? | flag | PU |
 _
 ```
 
-End with 63 tag.
+Optional end with multiple 63 tags.
 
 == 37 Variable Information(Same as 20)
 
@@ -334,6 +376,7 @@ End with 63 tag.
 ```
 37 02 2E 31 | 66 00 00 02 00
       .1
+37 02 2E 31 | 46 00 00 2E 00
 ```
 
 == 61 All File End Flag
@@ -389,6 +432,10 @@ An unit have many const, procedures and types, end with 63 tag.
 
 ```
 67 17 40 44 65 6C 70 68 69 45 78 63 65 70 74 69 6F 6E 48 61 6E 64 6C 65 72 | C8 7E 90 F4
+
+67 0F 40 44 79 6E 41 72 72 61 79 4C 65 6E 67 74 68 | 98 D6 54 70 9F F0 58 BE C2
+
+67 08 40 4C 53 74 72 4C 65 6E | B1 D9 99 A8 9F 19 5C 34 F0
 ```
 
 == 70 | 76 Source File Name

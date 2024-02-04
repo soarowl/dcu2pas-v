@@ -118,6 +118,16 @@ fn (d Dcu) get[T]() !T {
 	}
 }
 
+fn (mut d Dcu) get_bytes(len u32) ![]u8 {
+	if d.pos + len <= d.data.len {
+		slice := d.data[d.pos..d.pos + len]
+		d.pos += len
+		return slice
+	} else {
+		return error(err_msg_end_of_file)
+	}
+}
+
 fn (mut d Dcu) get_packed_int() !i64 {
 	val8 := d.get[i8]()!
 	if val8 & 0b1 == 0 {
@@ -149,7 +159,7 @@ fn (mut d Dcu) get_packed_int() !i64 {
 		return val32 >> 4
 	}
 
-	if val8 == 0x5F {
+	if val8 & 0x0F == 0x0F && val8 != 0xFF {
 		val32 := d.get[i32]()!
 		return val32
 	}
@@ -188,7 +198,7 @@ fn (mut d Dcu) get_packed_uint() !u64 {
 		return val32 >>> 4
 	}
 
-	if val8 == 0x5F {
+	if val8 & 0x0F == 0x0F && val8 != 0xFF {
 		val32 := d.get[u32]()!
 		return val32
 	}
