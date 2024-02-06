@@ -74,6 +74,9 @@ fn (mut d Dcu) decode() ! {
 	for {
 		d.tag = d.get[u8]()!
 		match d.tag {
+			u8(Tag.const_declare) {
+				d.declares << d.decode_const_declare()!
+			}
 			u8(Tag.const_info) {
 				d.declares << d.decode_const_info()!
 			}
@@ -329,6 +332,7 @@ enum Tag as u8 {
 	start               = 0
 	unit_addtional_info = 0x02 // ? Delphi12
 	var_info1           = 0x20
+	const_declare       = 0x25
 	const_info          = 0x35
 	var_info2           = 0x37
 	stop                = 0x63
@@ -340,4 +344,4 @@ enum Tag as u8 {
 	unit_flags          = 0x96
 }
 
-type Declare = ConstInfo | VarInfo
+type Declare = ConstDeclare | ConstInfo | VarInfo
